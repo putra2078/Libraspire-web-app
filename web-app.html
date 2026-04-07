@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .container section {
+            padding: 24px 24px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 2rem;
+        }
+
+        .section-title-left {
+            text-align: left;
+            font-size: 28px;
+            margin-bottom: 1rem;
+        }
+
+        .company-logo {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #0B3E63;
+        }
+
+        .header-btn {
+            padding: 16px 18px;
+            background-color: #0B3E63;
+            color: white;
+            border: none;
+            border-radius: 48px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* HEADER */
+        .header {
+            padding: 1rem 0;
+            z-index: 100;
+            position: sticky;
+            top: 0px;
+            background-color: white;
+            /* box-shadow: 0 16px 36px 0 rgba(0,0,0,0.1); */
+            border-style: solid;
+            border-width: 1px;
+            border-color: #ccc;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 24px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #0B3E63;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            transition: 0.1s;
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            color: #0B3E63;
+        }
+
+        .navbar p {
+            text-align: justify;
+        }
+
+        /* HERO */
+        .title-wrapper {
+            position: relative;
+        }
+
+        .hero {
+            width: 100%;
+            min-height: 85vh;
+            background-image: url('https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            width: 100%;
+        }
+
+        .hero-title h2 {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title p {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .search {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search input {
+            height: 48px;
+            width: 75%;
+            margin: 12px 0px;
+            padding: 12px 24px;
+            border-radius: 2rem;
+            border: 1px solid #ccc;
+        }
+
+        .search button {
+            transition: 0.3s;
+            height: 48px;
+            width: 96px;
+            border-radius: 2rem;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #0B3E63;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #ccc;
+            color: #eee;
+            align-items: center;
+        }
+
+        .search button:hover {
+            transition: 0.3s;
+            background-color: #062135;
+            box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Book Categories  */
+        .book-categories {
+            padding: 4rem 0;
+        }
+
+        .categories-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-wrapper {
+            position: relative;
+        }
+
+        .category-image {
+            width: 12em;
+            height: 8em;
+            border-radius: 1rem;
+            z-index: -1;
+            background-color: black;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            box-shadow: 0px -100px 100px 0px rgba(0, 0, 0, 0.8) inset;
+        }
+
+        .category-wrapper li {
+            color: white;
+            position: absolute;
+            font-size: 14px;
+            bottom: 1.2em;
+            left: 1.2em;
+        }
+
+        /* Popular Books */
+        .popular-books {
+            padding: 8rem 0;
+            overflow: hidden;
+        }
+
+        .section-wrapper {
+            display: flex;
+        }
+
+        .section-wrapper h2 {
+            padding: 24px 0px;
+        }
+
+        .books {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
+
+        .books-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            animation: scroll-books 25s linear infinite;
+        }
+
+        .books-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-books {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .books-card {
+            transition: 0.3s;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #ccc;
+            min-width: 256px;
+            max-width: 256px;
+            border-radius: 1rem;
+            flex-shrink: 0;
+        }
+
+        .books-card:hover {
+            box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .books-card-image {
+            width: 256px;
+            height: 340px;
+            padding: 0px 24px;
+            padding-top: 24px;
+            border-radius: 1rem;
+            /* width: 100%; */
+        }
+
+        .card-info {
+            margin: 0px;
+            padding: 24px;
+        }
+
+        .card-info h3 {
+            min-height: 3rem;
+        }
+
+        .card-info p {
+            font-size: 14px;
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            /* padding: 4rem 0; */
+            padding: 8rem 0;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .step-card {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-color: #0B3E63;
+            color: #eeeeee;
+            border-radius: 2rem;
+            position: relative;
+            padding: 24px;
+            /* max-width: 18rem; */
+            min-height: 14rem;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -30px;
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-radius: 999px;
+            border: 2px solid #0B3E63;
+            font-size: 22px;
+        }
+
+        .step-title {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .step-icon svg {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* STATISTIC */
+        .statistic {
+            padding: 8rem 0;
+        }
+
+        .stats-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* gap: 1.75rem; */
+            gap: 6rem;
+        }
+
+        .stat-wrapper {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stat-icon svg {
+            width: 70px;
+            height: auto;
+        }
+
+        .stat-data .stat-number {
+            font-size: 4rem;
+        }
+
+        .stat-data p {
+            font-size: 1rem;
+        }
+
+        /* Contact Us */
+
+        .contact-us {
+            margin: 8rem 0rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contact-us-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-us h2 {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .contact-us img {
+            max-width: 65%;
+            border-radius: 2rem;
+        }
+
+        .contact-us input {
+            width: 26em;
+            height: 3rem;
+            padding: 12px;
+        }
+
+        .contact-us textarea {
+            width: 26em;
+            height: 6rem;
+            padding: 12px;
+        }
+
+        .contact-us h4 {
+            margin-bottom: 6px;
+        }
+
+        .contact-us button {
+            width: 26em;
+            height: 3rem;
+        }
+
+
+        /* FOOTER */
+        footer {
+            background-color: #1a1a2e;
+            padding: 3rem 0 2rem;
+            color: #ccc;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-brand h2 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-nav a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-nav a:hover {
+            color: white;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .footer-socials a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .footer-socials a:hover {
+            transform: scale(1.1);
+            background-color: #e0e0e0;
+        }
+
+        .footer-socials a svg {
+            width: 20px;
+            height: 20px;
+            fill: #1a1a2e;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .footer-bottom a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-bottom a:hover {
+            color: white;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 32px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 24px;
+            color: #0B3E63;
+        }
+
+        .modal-form-group {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .modal-form-group input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .modal-btn-cancel {
+            background-color: transparent;
+            color: #0B3E63;
+            border: 1px solid #ccc;
+        }
+
+        .modal-btn-submit {
+            background-color: #0B3E63;
+            color: white;
+        }
+    </style>
+    <title>LibrAspire - Find and Borrow Books Easily</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="company-logo">LibrAspire</h1>
+            <nav class="navbar">
+                <a href="#">Home</a>
+                <a href="#">Catalog</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+            <div style="display: flex; gap: 10px;">
+                <button class="header-btn">Cari Bukumu Sekarang</button>
+            </div>
+        </div>
+    </header>
+    <!-- <hr> -->
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-title">
+                    <h2>Find and Borrow Books Easily</h2>
+                    <p>Access thousands of books anytime, anywhere.</p>
+                </div>
+                <div class="search">
+                    <input type="text" placeholder="Search by title, author, or category...">
+                    <button>
+                        Cari
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Book Categories  -->
+        <section class="book-categories">
+            <div class="container">
+                <h2 class="section-title-left">Book Categories</h2>
+                <ul class="categories-container">
+                    <div class="category-wrapper">
+                        <div class="category-image"
+                            style="background-image: url('https://images.pexels.com/photos/4316/technology-computer-chips-gigabyte.jpg');">
+                        </div>
+                        <li>Technology (2,500 books)</li>
+                    </div>
+                    <div class="category-wrapper">
+                        <div class="category-image"
+                            style="background-image: url('https://imgs.search.brave.com/ZZ3HMcD2fW05d1Xj0VQXuUc9TJroExEoP_e50KzEQME/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/YnJpbGlvLW5ldC5h/a2FtYWl6ZWQubmV0/L25ld3MvMjAyMS8w/OC8xMC8yMTE0MDcv/Ny1idWt1LXNhaW5z/LXBvcHVsZXItdGVy/bGFyaXMtanVsaS0y/MDIxLXZlcnNpLWdy/YW1lZGlhLTIxMDgx/MHguanBn');">
+                        </div>
+                        <li>Science (1,800 books)</li>
+                    </div>
+                    <div class="category-wrapper">
+                        <div class="category-image"
+                            style="background-image: url('https://imgs.search.brave.com/QQuR57uCx0FbBQffzs_wn2M7NUpPT1Y807WLavLv5y0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG5z/LmtsaW1nLmNvbS9y/ZXNpemVkLzY0Nngz/MjMvcC9oZWFkbGlu/ZS9yZWtvbWVuZGFz/aS1maWxtLWluZG9u/ZXNpYS15YW5nLWRp/YWRhcHQtMzE4OTI2/LmpwZw');">
+                        </div>
+                        <li>Novel (4,200 books)</li>
+                    </div>
+                    <div class="category-wrapper">
+                        <div class="category-image"
+                            style="background-image: url('https://images.pexels.com/photos/4316/technology-computer-chips-gigabyte.jpg');">
+                        </div>
+                        <li>Business (1,500 books)</li>
+                    </div>
+                    <div class="category-wrapper">
+                        <div class="category-image"
+                            style="background-image: url('https://images.pexels.com/photos/4316/technology-computer-chips-gigabyte.jpg');">
+                        </div>
+                        <li>History (1,200 books)</li>
+                    </div>
+                    <div class="category-wrapper">
+                        <div class="category-image"
+                            style="background-image: url('https://images.pexels.com/photos/4316/technology-computer-chips-gigabyte.jpg');">
+                        </div>
+                        <li>Education (1,300 books)</li>
+                    </div>
+                    <!-- <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li> -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- Popular Books  -->
+        <section class="popular-books">
+            <div class="container">
+                <h2 class="section-title-left">Popular Books</h2>
+                <div class="books">
+                    <div class="books-track">
+                        <!-- Original cards -->
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://ebooks.gramedia.com/ebook-covers/34319/image_highres/ID_HCO2016MTH09TSAONGAF.jpeg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>The Subtle Art of Not Giving a F*ck</h3>
+                                <p>Penulis: Mark Manson (2016)</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://mojokstore.com/wp-content/uploads/2018/12/Jokowi-si-Tukang-Kayu.jpg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Jokowi Si Tukang Kayu</h3>
+                                <p>Penulis: Gatotkoco Suroso</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://cdn.penguin.co.in/wp-content/uploads/2024/05/9781847943910-1.jpg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Atomic Habits</h3>
+                                <p>Penulis: James Clear (2018)</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://imgs.search.brave.com/g_cE4xDvahutntgpJXld6EI7-Dp51RoPncc_wnl-56o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb3Zl/cnMub3BlbmxpYnJh/cnkub3JnL2IvaWQv/MTI5MTY2NjItTS5q/cGc"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Bicara Itu Ada Seninya</h3>
+                                <p>Penulis: Oh Su Hyang (2016)</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://pbs.twimg.com/media/Gk8KQCoWMAAGaYm?format=png&name=900x900"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Ruri Sinaga</h3>
+                                <p>Penulis: Masaoki Shindo</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://cdn.gramedia.com/uploads/items/Weathering_With_You_RbOW2b6.jpg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Weathering With You</h3>
+                                <p>Penulis: Shinkai Makoto</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <!-- Duplicated cards for seamless loop -->
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://ebooks.gramedia.com/ebook-covers/34319/image_highres/ID_HCO2016MTH09TSAONGAF.jpeg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>The Subtle Art of Not Giving a F*ck</h3>
+                                <p>Penulis: Mark Manson (2016)</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://mojokstore.com/wp-content/uploads/2018/12/Jokowi-si-Tukang-Kayu.jpg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Jokowi Si Tukang Kayu</h3>
+                                <p>Penulis: Gatotkoco Suroso</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://cdn.penguin.co.in/wp-content/uploads/2024/05/9781847943910-1.jpg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Atomic Habits</h3>
+                                <p>Penulis: James Clear (2018)</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://imgs.search.brave.com/g_cE4xDvahutntgpJXld6EI7-Dp51RoPncc_wnl-56o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb3Zl/cnMub3BlbmxpYnJh/cnkub3JnL2IvaWQv/MTI5MTY2NjItTS5q/cGc"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Bicara Itu Ada Seninya</h3>
+                                <p>Penulis: Oh Su Hyang (2016)</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://pbs.twimg.com/media/Gk8KQCoWMAAGaYm?format=png&name=900x900"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Ruri Sinaga</h3>
+                                <p>Penulis: Masaoki Shindo</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                        <article class="books-card">
+                            <img class="books-card-image"
+                                src="https://cdn.gramedia.com/uploads/items/Weathering_With_You_RbOW2b6.jpg"
+                                alt="Book cover">
+                            <div class="card-info">
+                                <h3>Weathering With You</h3>
+                                <p>Penulis: Shinkai Makoto</p>
+                                <p>Status: <span>Available</span></p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <div class="steps-container">
+                    <div class="step-card">
+                        <!-- <img class="step-icon" src="" alt="Register"> -->
+                        <span class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M6 17C6 17.93 6 18.395 6.10222 18.7765C6.37962 19.8117 7.18827 20.6204 8.22354 20.8978C8.60504 21 9.07003 21 10 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H10C9.07003 3 8.60504 3 8.22354 3.10222C7.18827 3.37962 6.37962 4.18827 6.10222 5.22354C6 5.60504 6 6.07003 6 7M12 8L16 12M16 12L12 16M16 12H3"
+                                        stroke="#eeeeee" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg> </span>
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z"/></svg> -->
+                        <span class="step-number">1</span>
+                        <h3 class="step-title">
+                            Register
+                        </h3>
+                        <p class="step-desc"> Buat akun gratis.</p>
+                    </div>
+                    <div class="step-card">
+                        <!-- <img class="step-icon" src="" alt="Search Book"> -->
+                        <span class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M13.2686 14.2686L15 16M12.0627 6.06274L11.9373 5.93726C11.5914 5.59135 11.4184 5.4184 11.2166 5.29472C11.0376 5.18506 10.8425 5.10425 10.6385 5.05526C10.4083 5 10.1637 5 9.67452 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V15.8C3 16.9201 3 17.4802 3.21799 17.908C3.40973 18.2843 3.71569 18.5903 4.09202 18.782C4.51984 19 5.07989 19 6.2 19H17.8C18.9201 19 19.4802 19 19.908 18.782C20.2843 18.5903 20.5903 18.2843 20.782 17.908C21 17.4802 21 16.9201 21 15.8V10.2C21 9.0799 21 8.51984 20.782 8.09202C20.5903 7.71569 20.2843 7.40973 19.908 7.21799C19.4802 7 18.9201 7 17.8 7H14.3255C13.8363 7 13.5917 7 13.3615 6.94474C13.1575 6.89575 12.9624 6.81494 12.7834 6.70528C12.5816 6.5816 12.4086 6.40865 12.0627 6.06274ZM14 12.5C14 13.8807 12.8807 15 11.5 15C10.1193 15 9 13.8807 9 12.5C9 11.1193 10.1193 10 11.5 10C12.8807 10 14 11.1193 14 12.5Z"
+                                        stroke="#eeeeee" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg> </span>
+                        <span class="step-number">2</span>
+                        <h3 class="step-title">
+                            Search Book
+                        </h3>
+                        <p class="step-desc"> Temukan buku yang diinginkan.</p>
+                    </div>
+                    <div class="step-card">
+                        <!-- <img class="step-icon" src="" alt="Request Borrow"> -->
+                        <span class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M4 19V6.2C4 5.0799 4 4.51984 4.21799 4.09202C4.40973 3.71569 4.71569 3.40973 5.09202 3.21799C5.51984 3 6.0799 3 7.2 3H16.8C17.9201 3 18.4802 3 18.908 3.21799C19.2843 3.40973 19.5903 3.71569 19.782 4.09202C20 4.51984 20 5.0799 20 6.2V17H6C4.89543 17 4 17.8954 4 19ZM4 19C4 20.1046 4.89543 21 6 21H20M9 7H15M9 11H15M19 17V21"
+                                        stroke="#eeeeee" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg> </span>
+                        <span class="step-number">3</span>
+                        <h3 class="step-title">
+                            Request Borrow
+                        </h3>
+                        <p class="step-desc">Ajukan peminjaman.</p>
+                    </div>
+                    <div class="step-card">
+                        <!-- <img class="step-icon" src="" alt="Pick Up Book"> -->
+                        <span class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M12 21V18M7 12H10M17.5 6H7.8C6.11984 6 5.27976 6 4.63803 6.32698C4.07354 6.6146 3.6146 7.07354 3.32698 7.63803C3 8.27976 3 9.11984 3 10.8V18H14M17.5 6C19.433 6 21 7.567 21 9.5V18H14M17.5 6C15.567 6 14 7.567 14 9.5V18M15 3H12V6"
+                                        stroke="#eeeeee" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg> </span>
+                        <span class="step-number">4</span>
+                        <h3 class="step-title">
+                            Pick Up Book
+                        </h3>
+                        <p class="step-desc">Ambil buku di perpustakaan.</p>
+                    </div>
+                </div>
+                <!-- <div>
+                    <span>1. Register</span> - Buat akun gratis.
+                </div>
+                <div>
+                    <span>2. Search Book</span> - Temukan buku yang diinginkan.
+                </div>
+                <div>
+                    <span>3. Request Borrow</span> - Ajukan peminjaman.
+                </div>
+                <div>
+                    <span>4. Pick Up Book</span> - Ambil buku di perpustakaan.
+                </div> -->
+            </div>
+        </section>
+
+        <!-- Statistics -->
+        <section class="statistic">
+            <div class="container">
+                <h2 class="section-title">Statistics</h2>
+                <div class="stats-container">
+                    <div class="stat-wrapper">
+                        <span class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M4 19V6.2C4 5.0799 4 4.51984 4.21799 4.09202C4.40973 3.71569 4.71569 3.40973 5.09202 3.21799C5.51984 3 6.0799 3 7.2 3H16.8C17.9201 3 18.4802 3 18.908 3.21799C19.2843 3.40973 19.5903 3.71569 19.782 4.09202C20 4.51984 20 5.0799 20 6.2V17H6C4.89543 17 4 17.8954 4 19ZM4 19C4 20.1046 4.89543 21 6 21H20M9 7H15M9 11H15M19 17V21"
+                                        stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                        </span>
+                        <div class="stat-data">
+                            <h3 class="stat-number">12.500+</h3>
+                            <p>Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-wrapper">
+                        <!-- <img class="stat-icon" src="" alt="yes"> -->
+                        <span class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                                        stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                        </span>
+                        <div class="stat-data">
+                            <h3 class="stat-number">3.200+</h3>
+                            <p>Members</p>
+                        </div>
+                    </div>
+                    <div class="stat-wrapper">
+                        <span class="stat-icon">
+                            <svg height="200px" width="200px" version="1.1" id="Icons"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                viewBox="0 0 32 32" xml:space="preserve" fill="#000000">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <style type="text/css">
+                                        .st0 {
+                                            fill: #FFFFFF;
+                                        }
+                                    </style>
+                                    <path
+                                        d="M28.9,9.4C28.9,9.4,28.9,9.4,28.9,9.4C28.9,9.3,29,9.2,29,9.1c0,0,0,0,0-0.1c0,0,0,0,0-0.1c0-0.1,0-0.2,0-0.3c0,0,0,0,0-0.1 c0-0.1-0.1-0.2-0.1-0.3c0,0,0,0,0,0c-0.1-0.1-0.1-0.1-0.2-0.2l-11-7c-0.3-0.2-0.8-0.2-1.1,0l-13,9c0,0-0.1,0.1-0.1,0.1 c0,0,0,0-0.1,0c-0.1,0.1-0.1,0.2-0.2,0.3c0,0,0,0,0,0.1C3,10.8,3,10.9,3,11c0,0,0,0,0,0v6v6c0,0.3,0.2,0.7,0.5,0.8l11,7 c0.2,0.1,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.6-0.2l13-9c0.2-0.2,0.4-0.4,0.4-0.7s-0.1-0.6-0.3-0.8c-0.9-0.9-1.1-2.2-0.5-3.4l0.7-1.5 c0-0.1,0.1-0.2,0.1-0.3c0,0,0-0.1,0-0.1c0,0,0,0,0,0c0-0.1,0-0.3-0.1-0.4c0,0,0-0.1,0-0.1c0-0.1-0.1-0.2-0.2-0.3c0,0,0,0,0,0 c-0.9-0.9-1.1-2.2-0.5-3.4L28.9,9.4z M26.6,14.8l-11.6,8L5,16.5v-3.6l9.5,6c0.2,0.1,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.6-0.2l10.3-7.1 C25.8,12.8,26,13.8,26.6,14.8z M15,28.8L5,22.5v-3.6l9.5,6c0.2,0.1,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.6-0.2l10.3-7.1 c-0.1,1.1,0.1,2.2,0.7,3.1L15,28.8z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </span>
+                        <div class="stat-data">
+                            <h3 class="stat-number">850+</h3>
+                            <p>Monthly Borrows</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Us -->
+        <section class="contact-us">
+            <div class="container contact-us-wrapper">
+                <img src="https://images.pexels.com/photos/1106468/pexels-photo-1106468.jpeg" Alt="Contact-Us">
+                <div class="">
+                    <h2 class="section-title">Contact Us</h2>
+                    <form action="#" method="post">
+                        <div>
+                            <h4>Nama Lengkap</h4>
+                            <!-- <label for="name">Nama Lengkap</label><br> -->
+                            <input type="text" id="name" name="name" required placeholder="Masukkan nama lengkap">
+                        </div>
+                        <br>
+                        <div>
+                            <h4>Nama Lengkap</h4>
+                            <!-- <label for="email">Email</label><br> -->
+                            <input type="email" id="email" name="email" required placeholder="Masukkan email valid">
+                        </div>
+                        <br>
+                        <div>
+                            <h4>Nama Lengkap</h4>
+                            <!-- <label for="message">Pesan</label><br> -->
+                            <textarea id="message" name="message" rows="5" cols="40"
+                                placeholder="Pesanmu disini"></textarea>
+                        </div>
+                        <br>
+                        <button type="submit">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h2>LibrAspire</h2>
+                    <nav class="footer-nav">
+                        <a href="#">About Us</a>
+                        <a href="#">Catalog</a>
+                        <a href="mailto:support@libraspire.com">support@libraspire.com</a>
+                    </nav>
+                </div>
+                <div class="footer-socials">
+                    <!-- Instagram -->
+                    <a href="#" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5Zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5Zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm5.5-1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z" />
+                        </svg>
+                    </a>
+                    <!-- Facebook -->
+                    <a href="#" target="_blank" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12Z" />
+                        </svg>
+                    </a>
+                    <!-- X (Twitter) -->
+                    <a href="#" target="_blank" aria-label="X">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LibrAspire. All rights reserved. Made with ❤️ by ASPire Team 39</p>
+                <p>Jl Raya ITS, Surabaya, Indonesia</p>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+</body>
+
+<script>
+    // Existing Logic
+    document.getElementById("logo")
+
+    function sapa() {
+        const nama = prompt("Masukkan nama Anda:");
+        if (nama) {
+            alert(`Selamat datang, ${nama}! Selamat menjelajahi dunia buku di LibrAspire!`);
+        } else {
+            alert("Selamat datang di LibrAspire! Selamat menjelajahi dunia buku!");
+        }
+    }
+</script>
+
+</html>

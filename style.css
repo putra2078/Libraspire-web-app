@@ -1,0 +1,357 @@
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== HEADER ===== */
+.main-header {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding-top: 1rem;
+}
+
+.main-header .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+#logo {
+  font-size: 1.8rem;
+  color: #1e293b;
+}
+
+.navbar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar a:hover,
+.navbar a.active {
+  color: #1e293b;
+  font-weight: bold;
+}
+
+.tagline {
+  color: #64748b;
+  font-size: 1rem;
+  width: 100%;
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.main-header hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f0f4f8, #ffffff);
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+}
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  /* box-shadow: 0 4px 6px rgba(0,0,0,0.1); */
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #3b82f6;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background-color: #1e293b;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #334155;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* ===== CATEGORIES ===== */
+.categories {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.categories-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-item {
+  background-color: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 500;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.category-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* ===== POPULAR BOOKS ===== */
+.popular-books {
+  padding: 4rem 0;
+  background-color: #f8fafc;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.book-card {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.book-cover {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+}
+
+.book-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.book-author {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.book-status {
+  font-size: 0.875rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.badge.available {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* (tambahan untuk status lain jika diperlukan) */
+.badge.borrowed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+.badge.reserved {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+/* ===== HOW IT WORKS ===== */
+.how-it-works {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.step {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.step-number {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+/* ===== STATISTICS ===== */
+.statistics {
+  padding: 4rem 0;
+  background-color: #f8fafc;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item strong {
+  font-size: 2rem;
+  display: block;
+  color: #1e293b;
+}
+
+/* ===== CONTACT ===== */
+.contact {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: #1e293b;
+  color: white;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.footer hr {
+  border: none;
+  border-top: 1px solid #334155;
+  margin-bottom: 1rem;
+}
+
+.footer a {
+  color: #cbd5e1;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.footer a:hover {
+  color: white;
+}
+
+.footer address {
+  font-style: normal;
+  margin-top: 1rem;
+  color: #94a3b8;
+}
