@@ -1,5 +1,8 @@
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +19,30 @@ let db;
 
 // =============== MIDDLEWARE ===============
 app.use(express.json());
+
+// Pastikan folder uploads tersedia
+const UPLOADS_DIR = path.join(__dirname, 'uploads');
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+// Konfigurasi Multer — simpan PDF ke folder uploads/
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+        const unique = Date.now() + '-' + Math.round(Math.random() * 1e6);
+        cb(null, unique + path.extname(file.originalname));
+    }
+});
+const upload = multer({
+    storage,
+    fileFilter: (_req, file, cb) => {
+        if (file.mimetype === 'application/pdf') cb(null, true);
+        else cb(new Error('Hanya file PDF yang diperbolehkan'));
+    },
+    limits: { fileSize: 100 * 1024 * 1024 } // 100 MB
+});
+
+// Sajikan file PDF yang sudah diupload secara statis
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 // Izinkan CORS agar bisa diakses dari front-end HTML statis Anda
 app.use((req, res, next) => {
@@ -48,12 +75,33 @@ app.get('/books', async (req, res) => {
     }
 });
 
-// Contoh Endpoint untuk menyimpan data buku ke MongoDB
-app.post('/books', async (req, res) => {
+app.get('/books/:id', async (req, res) => {
     try {
         const collection = db.collection('books');
-        // Validasi simpel
+        const { id } = req.params;
+        const book = await collection.findOne({ _id: new ObjectId(id) });
+        if (book) {
+            res.json({ success: true, data: book });
+        } else {
+            res.status(404).json({ success: false, message: 'Buku tidak ditemukan' });
+        }
+    } catch (error) {
+        console.error('Error get book:', error);
+        res.status(500).json({ success: false, message: 'Gagal mengambil data' });
+    }
+});
+
+// Endpoint untuk menyimpan data buku + upload PDF ke MongoDB
+app.post('/books', upload.single('pdfFile'), async (req, res) => {
+    try {
+        const collection = db.collection('books');
         const { title, author, genre, year, status } = req.body;
+
+        // Susun URL publik file PDF (jika ada)
+        let pdfUrl = null;
+        if (req.file) {
+            pdfUrl = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+        }
 
         const result = await collection.insertOne({
             title,
@@ -61,6 +109,7 @@ app.post('/books', async (req, res) => {
             genre,
             year: parseInt(year, 10),
             status: status || 'available',
+            pdfUrl,
             createdAt: new Date()
         });
 
