@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Book — E-Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .book-content {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 1.0625rem;
+            line-height: 1.9;
+            color: #1e293b;
+        }
+
+        /* Nav arrow buttons */
+        .nav-arrow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-arrow:hover:not(:disabled) {
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Page fade transition */
+        .content-fade {
+            animation: fadeInUp 0.35s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Progress bar */
+        .progress-bar-inner {
+            transition: width 0.4s ease;
+        }
+
+        /* Custom scrollbar for content box */
+        .content-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .content-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+
+        /* Tooltip on page badge */
+        .page-badge {
+            transition: background 0.2s;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8f7f4] h-screen w-full flex flex-col overflow-hidden">
+
+    <!-- ─── Top Bar ──────────────────────────────────────────── -->
+    <header
+        class="h-16 flex-shrink-0 bg-white border-b border-gray-100 flex items-center justify-between px-6 md:px-10 z-10">
+        <!-- Back -->
+        <a href="dashboard.html"
+            class="flex items-center gap-2 text-gray-500 hover:text-gray-900 font-semibold text-sm transition-colors">
+            <i class='bx bx-arrow-back text-xl'></i>
+            <span class="hidden sm:inline">Back</span>
+        </a>
+
+        <!-- Book title (centered) -->
+        <div class="flex flex-col items-center">
+            <span id="headerTitle"
+                class="font-bold text-gray-900 text-sm truncate max-w-[200px] md:max-w-xs">Loading…</span>
+            <span id="headerAuthor" class="text-xs text-gray-400 font-medium truncate max-w-[160px] md:max-w-xs"></span>
+        </div>
+
+        <!-- Right actions -->
+        <div class="flex items-center gap-3">
+            <!-- Font size decrease -->
+            <button id="fontDecBtn" title="Decrease font size"
+                class="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition text-xs font-bold">
+                A−
+            </button>
+            <!-- Font size increase -->
+            <button id="fontIncBtn" title="Increase font size"
+                class="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition text-sm font-bold">
+                A+
+            </button>
+            <!-- Bookmark -->
+            <button id="bookmarkBtn" title="Bookmark this page"
+                class="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition">
+                <i class='bx bx-bookmark text-lg'></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ─── Reader Area ──────────────────────────────────────── -->
+    <main class="flex-1 flex flex-col items-center justify-start overflow-hidden px-4 py-6 md:py-8">
+
+        <!-- Reader Card -->
+        <div class="w-full max-w-4xl flex flex-col h-full">
+
+            <!-- ── Page number bar ── -->
+            <div class="flex items-center justify-between mb-5 flex-shrink-0">
+                <!-- Left: Page indicator -->
+                <div class="flex items-center gap-3">
+                    <span
+                        class="page-badge bg-yellow-400 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-sm select-none">
+                        Page <span id="currentPageLabel">1</span> of <span id="totalPagesLabel">1</span>
+                    </span>
+                </div>
+
+                <!-- Center: Slim progress bar -->
+                <div class="flex-1 mx-6 h-[5px] bg-gray-200 rounded-full overflow-hidden">
+                    <div id="progressBar" class="progress-bar-inner h-full bg-yellow-400 rounded-full"
+                        style="width: 0%"></div>
+                </div>
+
+                <!-- Right: Chapter label -->
+                <span id="chapterLabel" class="text-xs font-semibold text-gray-400 hidden sm:block"></span>
+            </div>
+
+            <!-- ── Content row: left arrow + text + right arrow ── -->
+            <div class="flex items-center gap-3 md:gap-5 flex-1 min-h-0">
+
+                <!-- Left Arrow -->
+                <button id="prevBtn" class="nav-arrow bg-white border border-gray-200 text-gray-700 shadow-sm"
+                    aria-label="Previous page">
+                    <i class='bx bx-chevron-left text-2xl'></i>
+                </button>
+
+                <!-- Book content box -->
+                <div class="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 h-full flex flex-col min-h-0">
+                    <!-- Chapter heading inside card -->
+                    <div class="px-8 md:px-12 pt-8 pb-4 border-b border-gray-50 flex-shrink-0">
+                        <p id="chapterTagInCard"
+                            class="text-xs font-bold text-yellow-500 uppercase tracking-widest mb-1"></p>
+                        <h2 id="chapterTitleInCard" class="text-xl md:text-2xl font-black text-gray-900 leading-snug">
+                        </h2>
+                    </div>
+
+                    <!-- Scrollable paragraph area -->
+                    <div id="pageContent"
+                        class="content-scroll book-content flex-1 overflow-y-auto px-8 md:px-12 py-6 content-fade">
+                        <!-- Dynamic content injected here -->
+                    </div>
+                </div>
+
+                <!-- Right Arrow -->
+                <button id="nextBtn" class="nav-arrow bg-yellow-400 text-white shadow-md" aria-label="Next page">
+                    <i class='bx bx-chevron-right text-2xl'></i>
+                </button>
+
+            </div>
+
+            <!-- ── Bottom: quick jump & keyboard hint ── -->
+            <div class="flex items-center justify-between mt-4 flex-shrink-0">
+                <!-- Quick page jump -->
+                <div class="flex items-center gap-2">
+                    <label for="pageJumpInput" class="text-xs font-semibold text-gray-400">Jump to page</label>
+                    <input id="pageJumpInput" type="number" min="1"
+                        class="w-16 text-center text-sm font-bold border border-gray-200 rounded-lg py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-800">
+                    <button id="pageJumpBtn"
+                        class="px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg hover:bg-gray-700 transition">Go</button>
+                </div>
+
+                <!-- Keyboard hint -->
+                <p class="text-xs text-gray-300 font-medium hidden md:block">
+                    <kbd class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md font-semibold">←</kbd>
+                    <kbd class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded-md font-semibold">→</kbd>
+                    to navigate
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ──────────────────────────────────────────────────────────────────
+        // BOOK DATA
+        // Replace `pages` with your real data. Each page object has:
+        //   chapter, chapterTitle, paragraphs[]
+        // ──────────────────────────────────────────────────────────────────
+        const bookMeta = {
+            title: 'Kisah Tiga Sahabat Hebat Dari Ngawi',
+            author: 'Pria tanpa kekasih dan satu bijinya'
+        };
+
+        const pages = [
+            {
+                chapter: 'Chapter 1',
+                chapterTitle: 'A New Beginning',
+                paragraphs: [
+                    'Di sebuah kota kecil bernama Ngawi, tiga sahabat tumbuh bersama sejak kecil. Nama mereka Raka, Bima, dan Arga.',
+                    'Mereka sering menghabiskan waktu di tepi Sungai Bengawan Solo yang mengalir tenang melewati kota itu. Air sungai memantulkan cahaya matahari sore, sementara suara burung terdengar dari pepohonan di sekitarnya.',
+                    'Raka dikenal sebagai pemikir. Ia selalu membawa buku kecil untuk menulis ide. Kadang ia berhenti menulis hanya untuk menatap sungai, seolah sedang mencari jawaban dari pikirannya sendiri.',
+                    'Bima adalah orang yang berani. Ia suka mencoba hal baru dan tidak takut menghadapi masalah. Saat berjalan di tepi sungai, ia sering melompat dari batu ke batu sambil tertawa.',
+                    'Arga memiliki kemampuan memperhatikan hal kecil yang sering tidak disadari orang lain. Ia sering menunjuk sesuatu yang tampak biasa, seperti jejak kaki di pasir atau bentuk awan di langit.',
+                    'Suatu sore mereka duduk di bawah pohon besar dekat jembatan tua. Angin berhembus pelan membuat daun daun bergoyang.',
+                    'Raka berkata bahwa suatu hari mereka harus melakukan sesuatu yang besar.',
+                    'Bima tertawa dan mengatakan bahwa petualangan selalu dimulai dari langkah kecil.',
+                    'Arga hanya tersenyum sambil melihat langit yang mulai berubah warna.',
+                ]
+            },
+            {
+                chapter: 'Chapter 1',
+                chapterTitle: 'The Old Map',
+                paragraphs: [
+                    'Hari berikutnya mereka berjalan melewati pasar Ngawi yang ramai. Suara pedagang memanggil pembeli bercampur dengan suara kendaraan yang lewat. Aroma gorengan, sate, dan nasi pecel memenuhi udara.',
+                    'Bima berhenti di sebuah warung kecil dan membeli tiga gelas es teh. Ia menyerahkan gelas itu kepada Raka dan Arga lalu berkata bahwa perjalanan yang baik selalu dimulai dengan minuman dingin.',
+                    'Raka membuka catatan kecilnya. Ia mulai menulis beberapa ide tentang perjalanan menjelajahi tempat tempat di sekitar kota.',
+                    'Arga berjalan perlahan di dalam warung sambil memperhatikan dinding yang dipenuhi barang lama.',
+                    'Matanya berhenti pada sebuah peta tua yang tergantung di sana.',
+                    'Di peta itu ada tanda kecil di sebuah bukit yang jarang dikunjungi orang.',
+                ]
+            },
+            {
+                chapter: 'Chapter 2',
+                chapterTitle: 'Into the Hill',
+                paragraphs: [
+                    'Tanda di peta itu membuat mereka penasaran.',
+                    'Arga menunjuk lokasi tersebut dan berkata bahwa tempat itu bernama Bukit Ketonggo.',
+                    'Menurut cerita yang pernah ia dengar dari orang tua di kampung, bukit itu memiliki banyak kisah lama.',
+                    'Bima langsung tertarik. Matanya berbinar seolah menemukan tantangan baru.',
+                    'Ia berkata bahwa mereka harus pergi ke sana akhir pekan ini.',
+                    'Raka mengangguk sambil menulis rencana perjalanan di bukunya.',
+                    'Perjalanan pertama tiga sahabat dari Ngawi akhirnya dimulai.',
+                ]
+            },
+            {
+                chapter: 'Chapter 2',
+                chapterTitle: 'The Clearing',
+                paragraphs: [
+                    'She found the clearing just as the sun began its afternoon descent, the shadows lengthening behind the pines into bruised-blue lines.',
+                    'It was perfectly circular, perhaps thirty metres across, with grass so green it almost seemed unreal. At the centre stood a single stone — flat-topped, about waist-high — that looked as if it had been placed there deliberately, though no inscription marked its surface.',
+                    'Elena walked toward it slowly, the way one approaches something that feels more significant than it looks. When she placed her hand on the stone it was warm, far warmer than the fading afternoon sun could account for.',
+                    'She unfolded the map. This was the spot. The double circle. *The Place*.',
+                    'She sat down on the stone and looked up at the open sky above the clearing, and for the first time in years, she did not feel the urge to reach for her phone.'
+                ]
+            },
+            {
+                chapter: 'Chapter 3',
+                chapterTitle: 'What Was Left Behind',
+                paragraphs: [
+                    'Night came quickly in the valley. Elena had not meant to stay, but staying felt right in the way that few things in her adult life had felt right — instinctively, without argument.',
+                    'She built a small fire from fallen branches at the edge of the clearing, keeping the stone in her sight. Stars appeared one by one, then all at once, dense and uncountable. She had forgotten that stars could look like that.',
+                    'In her grandfather\'s pack — the one her grandmother had quietly pressed into her hands before she left — she found a notebook. The handwriting was his: small, careful, unhurried. The final entry read:',
+                    '*I did not bury anything here. I did not mark anything. I only came to understand that some places exist not for what you find in them, but for what you are willing to set down.*',
+                    'Elena closed the notebook and held it for a long while. Above her, the Milky Way arched like a brushstroke across a canvas someone was still painting.'
+                ]
+            }
+        ];
+
+        // ──────────────────────────────────────────────────────────────────
+        // STATE
+        // ──────────────────────────────────────────────────────────────────
+        let currentPage = 0;
+        let fontSize = 17; // px
+        const MIN_FONT = 13;
+        const MAX_FONT = 22;
+
+        // Populate header
+        document.getElementById('headerTitle').textContent = bookMeta.title;
+        document.getElementById('headerAuthor').textContent = bookMeta.author;
+        document.getElementById('totalPagesLabel').textContent = pages.length;
+        document.getElementById('pageJumpInput').max = pages.length;
+
+        // DOM refs
+        const pageContent = document.getElementById('pageContent');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentPageLabel = document.getElementById('currentPageLabel');
+        const progressBar = document.getElementById('progressBar');
+        const chapterLabel = document.getElementById('chapterLabel');
+        const chapterTagInCard = document.getElementById('chapterTagInCard');
+        const chapterTitleInCard = document.getElementById('chapterTitleInCard');
+        const fontIncBtn = document.getElementById('fontIncBtn');
+        const fontDecBtn = document.getElementById('fontDecBtn');
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        const pageJumpInput = document.getElementById('pageJumpInput');
+        const pageJumpBtn = document.getElementById('pageJumpBtn');
+
+        // ── Render a page ──
+        function renderPage(index, direction = 'next') {
+            const page = pages[index];
+
+            // Chapter labels
+            chapterTagInCard.textContent = page.chapter;
+            chapterTitleInCard.textContent = page.chapterTitle;
+            chapterLabel.textContent = `${page.chapter} · ${page.chapterTitle}`;
+
+            // Paragraphs
+            pageContent.innerHTML = page.paragraphs
+                .map(p => `<p class="mb-5 last:mb-0">${p}</p>`)
+                .join('');
+
+            // Reset scroll
+            pageContent.scrollTop = 0;
+
+            // Re-trigger animation
+            pageContent.classList.remove('content-fade');
+            void pageContent.offsetWidth; // reflow
+            pageContent.classList.add('content-fade');
+
+            // Page label & progress
+            currentPageLabel.textContent = index + 1;
+            pageJumpInput.value = index + 1;
+            const pct = pages.length <= 1 ? 100 : Math.round((index / (pages.length - 1)) * 100);
+            progressBar.style.width = pct + '%';
+
+            // Button states
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === pages.length - 1;
+
+            // Persist to localStorage
+            localStorage.setItem('readerPage_' + encodeURIComponent(bookMeta.title), index);
+        }
+
+        // ── Navigation ──
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage(currentPage, 'prev');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                renderPage(currentPage, 'next');
+            }
+        });
+
+        // ── Keyboard navigation ──
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                if (currentPage < pages.length - 1) { currentPage++; renderPage(currentPage); }
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                if (currentPage > 0) { currentPage--; renderPage(currentPage); }
+            }
+        });
+
+        // ── Quick page jump ──
+        pageJumpBtn.addEventListener('click', jumpToPage);
+        pageJumpInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') jumpToPage(); });
+
+        function jumpToPage() {
+            const val = parseInt(pageJumpInput.value, 10);
+            if (!isNaN(val) && val >= 1 && val <= pages.length) {
+                currentPage = val - 1;
+                renderPage(currentPage);
+            }
+        }
+
+        // ── Font size ──
+        function applyFontSize() {
+            pageContent.style.fontSize = fontSize + 'px';
+            fontDecBtn.disabled = fontSize <= MIN_FONT;
+            fontIncBtn.disabled = fontSize >= MAX_FONT;
+        }
+
+        fontIncBtn.addEventListener('click', () => {
+            if (fontSize < MAX_FONT) { fontSize += 1; applyFontSize(); }
+        });
+        fontDecBtn.addEventListener('click', () => {
+            if (fontSize > MIN_FONT) { fontSize -= 1; applyFontSize(); }
+        });
+
+        // ── Bookmark ──
+        let bookmarked = false;
+        bookmarkBtn.addEventListener('click', () => {
+            bookmarked = !bookmarked;
+            bookmarkBtn.innerHTML = bookmarked
+                ? "<i class='bx bxs-bookmark text-lg text-yellow-400'></i>"
+                : "<i class='bx bx-bookmark text-lg'></i>";
+        });
+
+        // ── Init ──
+        (function init() {
+            // Restore saved page if any
+            const saved = localStorage.getItem('readerPage_' + encodeURIComponent(bookMeta.title));
+            if (saved !== null) {
+                const idx = parseInt(saved, 10);
+                if (!isNaN(idx) && idx >= 0 && idx < pages.length) currentPage = idx;
+            }
+            applyFontSize();
+            renderPage(currentPage);
+        })();
+    </script>
+</body>
+
+</html>
